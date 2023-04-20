@@ -117,5 +117,5 @@ if __name__ == '__main__':
 
     top200 = top200artists("SPOTIFY APRIL 7-13.html")
     calc_artists(top200)
-    # print (test)
+    # print(test)
 
