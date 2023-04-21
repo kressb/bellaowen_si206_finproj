@@ -37,6 +37,9 @@ def get_seatgeek_pop_score(artist):
     CLIENT_ID = 'MzMxNDQzNDF8MTY4MTc5ODQ1MC4zNTIwNjkx'
     SECRET = '31c2ebe5d78db857844d6e8c6e70c024ac29d90239cf5a2a67733de0f802374e'
 
+    # connect
+    
+
 
     # set api
     url = "https://api.seatgeek.com/2/performers"
@@ -62,35 +65,31 @@ def get_seatgeek_pop_score(artist):
 
         # return tuple of performer name and score
         return (performer_data["name"], performer_data["score"])
+        # insert data into table
 
 
 
 
-# # connect
-# conn = sqlite3.connect('seatgeek.db')
-
-# # c to access database & make changes
-# c = conn.cursor()
-
-# # create table
-# c.execute('''CREATE TABLE seatgeek(artist TEXT, popularity score INT, upcoming events INT)''')
-
-# # insert data into table
-# c.execute('''INSERT INTO seatgeek VALUES(?,?,?)''', variable, variable, variable)
-
-# # commit data
-# conn.commit()
-
-
-# conn.close()
+    conn.close()
 
 
 if __name__ == '__main__':
+    conn = sqlite3.connect('seatgeek.db')
 
+    # c to access database & make changes
+    c = conn.cursor()
+
+    # create table
+    c.execute('''CREATE TABLE seatgeek(artist TEXT, popularity score INT)''')
     final_list = []
     top200 = top200artists("SPOTIFY APRIL 7-13.html")
     for artist in top200[:100]:
         pop_score = get_seatgeek_pop_score(artist)
+        c.execute('''INSERT INTO seatgeek VALUES(?,?)''', (pop_score[0], pop_score[1]))
+
+        # commit data
+        conn.commit()
+
         final_list.append(pop_score)
     print(final_list)
 
